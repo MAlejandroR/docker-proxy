@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+#  app_alumno1:
+#    build: "./alumno1/docker/"
+#    environment:
+#      VIRTUAL_HOST: alumno1.nettformacion.com
+##    restart: always
+#  app_alumno2:
+#    build: "./alumno2/docker/"
+#    environment:
+#      VIRTUAL_HOST: alumno2.nettformacion.com
+##    restart: always
+#  app_alumno3:
+#    build: "./alumno3/docker/"
+#    environment:
+#      VIRTUAL_HOST: alumno3.nettformacion.com
+##    restart: always
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "8000:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+#    restart: always
+    privileged: true
+    networks:
+      - frontend
+networks:
+  frontend:
+    driver: bridge
+
+

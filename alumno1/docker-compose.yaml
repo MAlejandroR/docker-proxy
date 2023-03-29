@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  web:
+    image: php:8.1-apache
+    volumes:
+      - ./app:/var/www/html
+    hostname: web
+    environment:
+      - VIRTUAL_HOST="alumno1.infenlaces.com"
+      - VIRTUAL_PORT=80
+    depends_on:
+      - mysql
+    networks:
+      - alumnos_docker_frontend
+      - backend
+    ports:
+     - 80:80
+  mysql:
+    image: mysql
+    volumes:
+      - "./mysql:/var/lib/mysql"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_USER=manuel
+      - MYSQL_PASSWORD=manuel
+      - MYSQL_DATABASE=roles
+    networks:
+      - backend
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - mysql
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+    networks:
+      - backend
+networks:
+  alumnos_docker_frontend:
+    external: true
+  backend:
+    driver: bridge
